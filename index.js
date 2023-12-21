@@ -1,5 +1,4 @@
 import express from "express";
-import "dotenv/config";
 import cors from "cors";
 const app = express();
 import routes from "./src/routes/index.js";
@@ -13,12 +12,10 @@ app.use(cors());
 
 app.use("/", routes);
 
-const port = 4000;
-
 try {
   await connectToMongo();
-  app.listen(port, () => {
-    console.log(`server is running on port: ${port}`);
+  app.listen(4000, () => {
+    console.log(`server is running on port: 4000`);
   });
 } catch (error) {
   console.log(error);
