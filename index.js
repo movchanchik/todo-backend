@@ -3,15 +3,17 @@ import "dotenv/config";
 import cors from "cors";
 const app = express();
 import routes from "./src/routes/index.js";
+import bodyParser from "body-parser";
 import { connectToMongo } from "./src/config/mongoose.js";
 
 //Middleware
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use("/", routes);
 
-const port = process.env.PORT || 3000;
+const port = 4000;
 
 try {
   await connectToMongo();

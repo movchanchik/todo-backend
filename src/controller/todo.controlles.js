@@ -5,7 +5,6 @@ import { Todo } from "../models/todo.model.js";
 export const addTodo = async (req, res) => {
   try {
     console.log("Adding Todo");
-
     // create new data
     const newTodo = new Todo(req.body);
     await newTodo.save();
@@ -29,27 +28,26 @@ export const getTodos = async (req, res) => {
 };
 
 export const updateTodo = async (req, res) => {
-  const requestId = req.params.id;
-  console.log(`requestId :: ${requestId}`);
-  console.log(`body :: ${req.body}`);
-
+  const { id } = req.params;
+  const input = req.body;
   try {
-    console.log(`Updating todo`);
-
-    const todo = await Todo.findOneAndUpdate(requestId, req.body);
-    res.status(200).send(todo);
+    const updated = await Todo.findByIdAndUpdate(id, input, {
+      new: true,
+    });
+    res.status(200).send(updated);
   } catch (err) {
     res.status(400).send(err);
   }
 };
 
 export const deleteTodo = async (req, res) => {
-  const requestId = req.params.id;
+  const { id } = req.params;
   try {
-    console.log(`Deleting Todo`, requestId);
+    console.log(`Deleting Todo`, id);
 
-    const todo = await Todo.deleteOne({ id: requestId });
-    res.status(200).send(todo);
+    const deleted = await Todo.findByIdAndDelete(id);
+
+    res.status(200).send(deleted);
   } catch (err) {
     res.status(400).send(err);
   }
